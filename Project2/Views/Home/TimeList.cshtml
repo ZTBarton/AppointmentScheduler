@@ -2,12 +2,6 @@
     ViewData["Title"] = "Scheduler";
 }
 
-<p>@ViewBag.month</p>
-<p>@ViewBag.day</p>
-<p>@ViewBag.dayofweek</p>
-<p>@ViewBag.date</p>
-<p>@(ViewBag.date.AddDays(1).AddHours(1))</p>
-
 
 <table class="table table-bordered table-striped">
     <thead class="font-weight-bold">
@@ -38,17 +32,39 @@
                 }
                 else if (x != 12 && x != 4)
                 {
-                    <td><a class="btn btn-primary" asp-controller="Home" asp-action="AddAppt" asp-route-ApptDate="@(ViewBag.Date.AddDays(t-ViewBag.dayofweek).AddHours((x + 8) % 12))">@Convert.ToString((x + 8) % 12):00</a></td>
+                    @if (ViewBag.taken.Contains(ViewBag.Date.AddDays(t - ViewBag.dayofweek).AddHours((x + 8) % 12).ToString()))
+                    {
+                        <td><a class="btn btn-secondary">Full</a></td>
+                    }
+                    else
+                    {
+                        <td><a class="btn btn-primary" asp-controller="Home" asp-action="AddAppt" asp-route-id="@(ViewBag.Date.AddDays(t-ViewBag.dayofweek).AddHours((x + 8) % 12).ToString())">@Convert.ToString((x + 8) % 12):00</a></td>
+                    }
                 }
                 else
                 {
                     @if (x == 4)
                     {
-                        <td><a class="btn btn-primary" asp-controller="Home" asp-action="AddAppt" asp-route-ApptDate="@(ViewBag.Date.AddDays(t-ViewBag.dayofweek).AddHours(12))">12:00</a></td>
+                        @if (ViewBag.taken.Contains(ViewBag.Date.AddDays(t - ViewBag.dayofweek).AddHours(12).ToString()))
+                        {
+                            <td><a class="btn btn-secondary">Full</a></td>
+                        }
+                        else
+                        {
+                            <td><a class="btn btn-primary" asp-controller="Home" asp-action="AddAppt" asp-route-id="@(ViewBag.Date.AddDays(t-ViewBag.dayofweek).AddHours(12).ToString())">12:00</a></td>
+                        }
+
                     }
                     else
                     {
-                        <td><a class="btn btn-primary" asp-controller="Home" asp-action="AddAppt" asp-route-ApptDate="@(ViewBag.Date.AddDays(t-ViewBag.dayofweek).AddHours(20))">12:00</a></td>
+                        @if (ViewBag.taken.Contains(ViewBag.Date.AddDays(t - ViewBag.dayofweek).AddHours(20).ToString()))
+                        {
+                            <td><a class="btn btn-secondary">Full</a></td>
+                        }
+                        else
+                        {
+                            <td><a class="btn btn-primary" asp-controller="Home" asp-action="AddAppt" asp-route-id="@(ViewBag.Date.AddDays(t-ViewBag.dayofweek).AddHours(20).ToString())">8:00</a></td>
+                        }
                     }
 
                 }
@@ -81,28 +97,51 @@
 
             @for (int x = 0; x < 13; x++)
             {
-                <tr>
-                    @for (int t = 0; t < 7; t++)
+            <tr>
+                @for (int t = 0; t < 7; t++)
+                {
+                    @if (x != 12 && x != 4)
                     {
-                        @if (x != 12 && x != 4)
+                        @if (ViewBag.taken.Contains(ViewBag.Date.AddDays((6 - ViewBag.dayofweek) + (7 * i) + (1 + t)).AddHours((x + 8) % 12).ToString()))
                         {
-                            <td><a class="btn btn-primary" asp-controller="Home" asp-action="AddAppt" asp-route-ApptDate="@(ViewBag.Date.AddDays((6 - ViewBag.dayofweek) + (7*i) + (1+t)).AddHours((x + 8) % 12))">@Convert.ToString((x + 8) % 12):00</a></td>
+                            <td><a class="btn btn-secondary">Full</a></td>
                         }
                         else
                         {
-                            @if (x == 4)
-                            {
-                                <td><a class="btn btn-primary" asp-controller="Home" asp-action="AddAppt" asp-route-ApptDate="@(ViewBag.Date.AddDays((6 - ViewBag.dayofweek) + (7*i) + (1+t)).AddHours(12))">12:00</a></td>
-                            }
-                            else
-                            {
-                                <td><a class="btn btn-primary" asp-controller="Home" asp-action="AddAppt" asp-route-ApptDate="@(ViewBag.Date.AddDays((6 - ViewBag.dayofweek) + (7*i) + (1+t)).AddHours(20))">12:00</a></td>
-                            }
-
+                            <td><a class="btn btn-primary" asp-controller="Home" asp-action="AddAppt" asp-route-id="@(ViewBag.Date.AddDays((6 - ViewBag.dayofweek) + (7*i) + (1+t)).AddHours((x + 8) % 12).ToString())">@Convert.ToString((x + 8) % 12):00</a></td>
                         }
 
                     }
-                </tr>
+                    else
+                    {
+                        @if (x == 4)
+                        {
+                            @if (ViewBag.taken.Contains(ViewBag.Date.AddDays((6 - ViewBag.dayofweek) + (7 * i) + (1 + t)).AddHours(12).ToString()))
+                            {
+                                <td><a class="btn btn-secondary">Full</a></td>
+                            }
+                            else
+                            {
+                                <td><a class="btn btn-primary" asp-controller="Home" asp-action="AddAppt" asp-route-id="@(ViewBag.Date.AddDays((6 - ViewBag.dayofweek) + (7*i) + (1+t)).AddHours(12).ToString())">12:00</a></td>
+                            }
+                        }
+                        else
+                        {
+                            @if (ViewBag.taken.Contains(ViewBag.Date.AddDays((6 - ViewBag.dayofweek) + (7 * i) + (1 + t)).AddHours(20).ToString()))
+                            {
+                                <td><a class="btn btn-secondary">Full</a></td>
+                            }
+                            else
+                            {
+                                <td><a class="btn btn-primary" asp-controller="Home" asp-action="AddAppt" asp-route-id="@(ViewBag.Date.AddDays((6 - ViewBag.dayofweek) + (7*i) + (1+t)).AddHours(20).ToString())">8:00</a></td>
+                            }
+                            
+                        }
+
+                    }
+
+                }
+            </tr>
             }
         </tbody>
     </table>

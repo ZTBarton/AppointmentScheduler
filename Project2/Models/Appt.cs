@@ -9,7 +9,7 @@ namespace Project2.Models
         //public long ApptId { get; set; }
         [Key]
         [Required]
-        public DateTime ApptDate { get; set; }
+        public string ApptDate { get; set; }
         //[Required]
         //public int ApptTime { get; set; }
         [Required]

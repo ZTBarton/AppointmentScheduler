@@ -35,14 +35,23 @@ namespace Project2.Controllers
             ViewBag.day = Convert.ToString(DateTime.Now.Day);
             ViewBag.dayofweek = ((int)DateTime.Now.DayOfWeek);
             ViewBag.date = DateTime.Now.Date;
+            List<string> apts = blahContext.Appts.Select(x => x.ApptDate).ToList();
+            List<string> taken = new List<string>();
+
+            foreach (var x in apts)
+            {
+                taken.Add(x.Remove(2, 3).Insert(2, "/").Remove(5, 3).Insert(5, "/"));
+            }
+            ViewBag.taken = taken;
+            //ViewBag.taken = apts;
 
             return View("TimeList", ViewBag);
         }
 
         [HttpGet]
-        public IActionResult AddAppt(int id)
+        public IActionResult AddAppt(string id)
         {
-            //ViewBag.majors = blahContext.ToList();
+            ViewBag.dateid = id;
 
             return View();
         }
@@ -50,6 +59,7 @@ namespace Project2.Controllers
         [HttpPost]
         public IActionResult AddAppt(Appt ar)
         {
+
             blahContext.Add(ar);
             blahContext.SaveChanges();
 
@@ -58,19 +68,18 @@ namespace Project2.Controllers
         //Edit Methods
 
         [HttpGet]
-
-        public IActionResult Edit(DateTime ApptDate)
+        public IActionResult EditAppt(string ApptDate)
         {
-            //ViewBag.Category = blahContext.Category.ToList();
 
             Appt myAppt = blahContext.Appts.Single(x => x.ApptDate == ApptDate);
-            return View("ApptList", myAppt);
+            return View(myAppt);
         }
 
         [HttpPost]
-        public IActionResult Edit(Appt test)
-        {
-            blahContext.Update(test);
+        public IActionResult EditAppt(Appt apt)
+        { 
+
+            blahContext.Update(apt);
             blahContext.SaveChanges();
 
             return RedirectToAction("ApptList");
@@ -90,12 +99,12 @@ namespace Project2.Controllers
         // Delete Methods
 
         [HttpGet]
-        public IActionResult Delete(DateTime ApptDate)
+        public IActionResult Delete(string ApptDate)
         {
-            var application = blahContext.Appts.Single(x => x.ApptDate == ApptDate);
+            var apt = blahContext.Appts.Single(x => x.ApptDate == ApptDate);
 
 
-            return View(application);
+            return View(apt);
         }
 
         [HttpPost]

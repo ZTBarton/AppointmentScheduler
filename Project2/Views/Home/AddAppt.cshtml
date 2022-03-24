@@ -1,4 +1,5 @@
 ﻿
+
 @{
     ViewData["Title"] = "Add Appointment";
 }
@@ -13,6 +14,8 @@
 
             <div asp-validation-summary="All"></div>
 
+            <label>Appointment Date & Time:</label>
+            <input type="hidden" value="@ViewBag.dateid" asp-for="ApptDate" />@ViewBag.dateid.Remove(2, 3).Insert(2, "/").Remove(5, 3).Insert(5, "/")<br />
 
             <label asp-for="GroupName">Group Name:</label>
             <input asp-for="GroupName" /><br />
@@ -21,7 +24,7 @@
             <input asp-for="GroupSize" /><br />
 
             <label asp-for="Email">Email:</label>
-            <input asp-for="Email"/><br />
+            <input asp-for="Email" /><br />
 
             <label asp-for="GroupPhone">Phone Number:</label>
             <input asp-for="GroupPhone" /><br />
