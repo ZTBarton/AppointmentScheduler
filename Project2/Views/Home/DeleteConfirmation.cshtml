@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Delete Confirmation";
+}
+
+@model Project2.Models.Appt
+
+<div class="text-center">
+    <h1 class="display-4">Are you sure?</h1>
+    <p>Are you sure you want to delete your appointment for @Model.ApptDate.Remove(2, 3).Insert(2, "/").Remove(5, 3).Insert(5, "/")?</p>
+    <br />
+    <form method="post" asp-controller="Home" asp-action="Delete">
+        <button class="btn btn-danger" type="submit">Delete</button>
+        <a class="btn btn-primary" asp-controller="Home" asp-action="ApptList">Cancel</a>
+
+        <input type="hidden" asp-for="ApptDate" />
+    </form>
+</div>

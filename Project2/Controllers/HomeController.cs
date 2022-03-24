@@ -104,7 +104,7 @@ namespace Project2.Controllers
             var apt = blahContext.Appts.Single(x => x.ApptDate == ApptDate);
 
 
-            return View(apt);
+            return View("DeleteConfirmation", apt);
         }
 
         [HttpPost]
@@ -114,7 +114,7 @@ namespace Project2.Controllers
             blahContext.Remove(ar);
             blahContext.SaveChanges();
 
-            return RedirectToAction("WaitList");
+            return RedirectToAction("ApptList");
         }
 
 
