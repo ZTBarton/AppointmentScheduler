@@ -1,0 +1,109 @@
+﻿@{
+    ViewData["Title"] = "Scheduler";
+}
+
+<p>@ViewBag.month</p>
+<p>@ViewBag.day</p>
+<p>@ViewBag.dayofweek</p>
+<p>@ViewBag.date</p>
+<p>@(ViewBag.date.AddDays(1).AddHours(1))</p>
+
+
+<table class="table table-bordered table-striped">
+    <thead class="font-weight-bold">
+        <tr>
+            <td>This Week</td>
+        </tr>
+        <tr>
+            <td>Sunday</td>
+            <td>Monday</td>
+            <td>Tuesday</td>
+            <td>Wednesday</td>
+            <td>Thursday</td>
+            <td>Friday</td>
+            <td>Saturday</td>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @for (int x = 0; x < 13; x++)
+        {
+        <tr>
+            @for (int t = 0; t < 7; t++)
+            {
+                @if (t < ViewBag.dayofweek)
+                {
+                    <td> </td>
+                }
+                else if (x != 12 && x != 4)
+                {
+                    <td><a class="btn btn-primary" asp-controller="Home" asp-action="AddAppt" asp-route-ApptDate="@(ViewBag.Date.AddDays(t-ViewBag.dayofweek).AddHours((x + 8) % 12))">@Convert.ToString((x + 8) % 12):00</a></td>
+                }
+                else
+                {
+                    @if (x == 4)
+                    {
+                        <td><a class="btn btn-primary" asp-controller="Home" asp-action="AddAppt" asp-route-ApptDate="@(ViewBag.Date.AddDays(t-ViewBag.dayofweek).AddHours(12))">12:00</a></td>
+                    }
+                    else
+                    {
+                        <td><a class="btn btn-primary" asp-controller="Home" asp-action="AddAppt" asp-route-ApptDate="@(ViewBag.Date.AddDays(t-ViewBag.dayofweek).AddHours(20))">12:00</a></td>
+                    }
+
+                }
+
+            }
+        </tr>
+        }
+    </tbody>
+</table>
+
+@for (int i = 0; i < 12; i++)
+{
+    <table class="table table-bordered table-striped">
+        <thead class="font-weight-bold">
+            <tr>
+                <td>Week @i</td>
+            </tr>
+            <tr>
+                <td>Sunday</td>
+                <td>Monday</td>
+                <td>Tuesday</td>
+                <td>Wednesday</td>
+                <td>Thursday</td>
+                <td>Friday</td>
+                <td>Saturday</td>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @for (int x = 0; x < 13; x++)
+            {
+                <tr>
+                    @for (int t = 0; t < 7; t++)
+                    {
+                        @if (x != 12 && x != 4)
+                        {
+                            <td><a class="btn btn-primary" asp-controller="Home" asp-action="AddAppt" asp-route-ApptDate="@(ViewBag.Date.AddDays((6 - ViewBag.dayofweek) + (7*i) + (1+t)).AddHours((x + 8) % 12))">@Convert.ToString((x + 8) % 12):00</a></td>
+                        }
+                        else
+                        {
+                            @if (x == 4)
+                            {
+                                <td><a class="btn btn-primary" asp-controller="Home" asp-action="AddAppt" asp-route-ApptDate="@(ViewBag.Date.AddDays((6 - ViewBag.dayofweek) + (7*i) + (1+t)).AddHours(12))">12:00</a></td>
+                            }
+                            else
+                            {
+                                <td><a class="btn btn-primary" asp-controller="Home" asp-action="AddAppt" asp-route-ApptDate="@(ViewBag.Date.AddDays((6 - ViewBag.dayofweek) + (7*i) + (1+t)).AddHours(20))">12:00</a></td>
+                            }
+
+                        }
+
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}

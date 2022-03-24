@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewData["Title"] = "Add Appointment";
+}
+
+@model Project2.Models.Appt
+
+
+    <h1>Add a Appointment</h1>
+
+    <div>
+        <form method="post">
+
+            <div asp-validation-summary="All"></div>
+
+
+            <label asp-for="GroupName">Group Name:</label>
+            <input asp-for="GroupName" /><br />
+
+            <label asp-for="GroupSize">Group Size:</label>
+            <input asp-for="GroupSize" /><br />
+
+            <label asp-for="Email">Email:</label>
+            <input asp-for="Email"/><br />
+
+            <label asp-for="GroupPhone">Phone Number:</label>
+            <input asp-for="GroupPhone" /><br />
+
+
+            <button type="submit">Add Appointment</button>
+
+
+        </form>
+    </div>
+
